@@ -20,10 +20,10 @@ def startDecryption():
     decryption_window.geometry("600x500")
     
     decryption_text_data = Text(decryption_window, height=20, width=72)
-    decryption_text_data.place(relx=0.5,rely=0.35, anchor=CENTER)
+    decryption_text_data.place(relx=0.5, rely=0.35, anchor=CENTER)
     
-    btn_open_file = Button(decryption_window, text="Choose File..", font = 'arial 13', bg="SteelBlue1")
-    btn_open_file.place(relx=0.5,rely=0.8, anchor=CENTER)
+    btn_open_file = Button(decryption_window, text="Choose File..", font = 'arial 13', bg="SteelBlue1", command=viewData)
+    btn_open_file.place(relx=0.5, rely=0.8, anchor=CENTER)
     
     decryption_window.mainloop()
     
@@ -38,16 +38,16 @@ def startEncryption():
     encryption_window.geometry("600x500")
     
     file_name_label = Label(encryption_window, text="File Name: ", font='arial 13', bg="gold")
-    file_name_label.place(relx=0.1,rely=0.15, anchor=CENTER)
+    file_name_label.place(relx=0.1, rely=0.15, anchor=CENTER)
     
     file_name_entry = Entry(encryption_window, font='arial 15')
-    file_name_entry.place(relx=0.38,rely=0.15, anchor=CENTER)
+    file_name_entry.place(relx=0.38, rely=0.15, anchor=CENTER)
     
     btn_create = Button(encryption_window, text="Create", font='arial 13', bg="SteelBlue1", command=saveData)
-    btn_create.place(relx=0.75,rely=0.15, anchor=CENTER)
+    btn_create.place(relx=0.75, rely=0.15, anchor=CENTER)
     
     encryption_text_data = Text(encryption_window, height=20, width=72)
-    encryption_text_data.place(relx=0.5,rely=0.55, anchor=CENTER)
+    encryption_text_data.place(relx=0.5, rely=0.55, anchor=CENTER)
         
     encryption_window.mainloop()
     
@@ -63,6 +63,18 @@ def saveData():
     encryption_text_data.delete(1.0, END)
     encryption_text_data.delete(1.0, END)
     tkmb.showinfo("Message", "Successfully Updated")
+
+def viewData():
+    global decryption_text_data
+    text_file = filedialog.askopenfilename(title="Open Any Text File", filetypes=(("Text Files", "*.txt"),))
+    name = os.path.basename(text_file)
+    print(name, "opened")
+    text_file = open(name, "r")
+    paragraph = text_file.read()
+    byte = bytes.fromhex(paragraph)
+    original = decrypt('XYZ', byte)
+    final_data = original.decode("utf-8")
+    decryption_text_data.insert(END, paragraph)
 
 heading_label = Label(root, text="Encryption & Decryption" , font='arial 18 italic', bg="gold")
 heading_label.place(relx=0.5,rely=0.2, anchor=CENTER)
